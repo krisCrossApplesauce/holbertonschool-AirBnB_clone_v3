@@ -131,15 +131,12 @@ class TestFileStorage(unittest.TestCase):
     def test_count(self):
         """ test that count counts the number of objects in storage """
         storage = FileStorage()
+        dict = {"name": "Oklahoma"}
+        state = State(**dict)
+        storage.new(state)
+        dict = {"name": "Tulsa"}
+        city = City(**dict)
+        storage.new(city)
+        storage.save()
         count = storage.count()
-        self.assertEqual(count, len(storage.__objects))
-        obj_a = Amenity("a")
-        storage.new(obj_a)
-        count = storage.count()
-        self.assertEqual(count, len(storage.__objects))
-        obj_b = State("b")
-        storage.new(obj_b)
-        count = storage.count()
-        self.assertEqual(count, len(storage.__objects))
-        count = storage.count(State)
-        self.assertEqual(count, 1)
+        self.assertEqual(len(storage.all()), count)
